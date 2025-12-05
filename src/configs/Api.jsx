@@ -4,7 +4,8 @@ const BASE_URL = "http://47.129.137.90:9000";
 export const endpoints = {
   project:  "/project",
   register: "/auth/register",
-  login: "/auth/login"
+  login: "/auth/login",
+  projects: "/projects"
 };
 
 export const authApis = (token) => {

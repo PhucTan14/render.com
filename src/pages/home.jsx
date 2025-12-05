@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppLayout from "../components/AppLayout";
 import NewProjectForm from "../components/NewProjectForm";
 import { useNavigate } from "react-router-dom";
+import { endpoints, authApis } from "../configs/Api";
 
 const mockProjects = [
   {
@@ -19,9 +20,25 @@ const mockProjects = [
 ];
 
 function ProjectDashboard() {
-  const [projects] = useState(mockProjects);
+  const [projects, setProjects] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const api = authApis(token);
+        const res = await api.get(endpoints.projects);
+        console.log("res===>", res);
+        setProjects(res.data || []);
+      } catch (err) {
+        console.error("Lỗi fetch projects:", err);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const getStatusStyle = (status) => {
     switch (status) {
@@ -69,7 +86,7 @@ function ProjectDashboard() {
           flexDirection: "column",
           height: "100%",
           padding: "40px 20px",
-          background: "#f8f9fa",
+          background: "#F4F5FF",
         }}
       >
         {/* Header */}
@@ -82,7 +99,7 @@ function ProjectDashboard() {
           }}
         >
           <h2 style={{ margin: 0, fontSize: 26, fontWeight: 700 }}>
-            Tất Cả Các Dự An Đã Deploy
+            Tất Cả Các Dự Án Đã Deploy
           </h2>
 
           <button
@@ -137,23 +154,42 @@ function ProjectDashboard() {
                 {project.name}
               </h3>
 
-              <div
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: 8,
-                  fontSize: 14,
-                  marginBottom: 14,
-                  display: "inline-block",
-                  ...getStatusStyle(project.status),
-                }}
-              >
-                {project.status === "running"
-                  ? "Hoạt động bình thường"
-                  : "Lỗi deploy"}
+              <div style={{ display: "flex", gap: 12, marginBottom: 14 }}>
+                <div
+                  style={{
+                    padding: "6px 12px",
+                    borderRadius: 8,
+                    fontSize: 14,
+                    display: "inline-block",
+                    ...getStatusStyle(project.status),
+                  }}
+                >
+                  {project.status === "running"
+                    ? "Hoạt động bình thường"
+                    : "Lỗi deploy"}
+                </div>
+
+                <div
+                  style={{
+                    padding: "6px 12px",
+                    borderRadius: 8,
+                    background: "#115099ff",
+                    color: "#faf7f7ff",
+                    fontSize: 14,
+                    display: "inline-block",
+                  }}
+                >
+                  {project.type}
+                </div>
               </div>
 
               <div style={{ fontSize: 14, color: "#666" }}>
-                Deploy gần nhất: <b>{project.lastDeploy}</b>
+                Deploy gần nhất:{" "}
+                <b>
+                  {new Date(project.createdAt).toLocaleString("vi-VN", {
+                    hour12: false,
+                  })}
+                </b>
               </div>
             </div>
           ))}
