@@ -16,7 +16,6 @@ function ProjectDashboard() {
         const token = localStorage.getItem("token");
         const api = authApis(token);
         const res = await api.get(endpoints.projects);
-        console.log("res===>", res);
         setProjects(res.data || []);
       } catch (err) {
         console.error("Lỗi fetch projects:", err);
