@@ -3,12 +3,12 @@ import { endpoints, authApis } from "../configs/Api";
 import socket from "../socket";
 
 const stackOptions = [
+  "Static",
   "ReactJS",
   "Node.js",
   "Python",
   "PHP",
   "Go",
-  "Static Site",
 ];
 
 export default function NewProjectForm({ open, onClose }) {

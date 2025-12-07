@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AppLayout from "../components/AppLayout";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const mockProject = {
   id: 1,
@@ -19,7 +20,10 @@ const mockProject = {
 };
 
 function ProjectDetail() {
-  const [project, setProject] = useState(mockProject);
+  const location = useLocation();
+  const project = location.state?.project;
+  console.log(project)
+  //const [project, setProject] = useState(mockProject);
   const [showEnv, setShowEnv] = useState(false);
   const [redeploying, setRedeploying] = useState(false);
   const navigate = useNavigate();
@@ -48,7 +52,7 @@ function ProjectDetail() {
       <div
         style={{
           width: "95%",
-          maxWidth: 1000,
+          maxWidth: 10000,
           margin: "20px auto",
           padding: "32px 40px",
           background: "#ffffff",
@@ -118,29 +122,31 @@ function ProjectDetail() {
           <div>
             <strong>Link app:</strong>{" "}
             <a
-              href={project.url}
+              href={`https://${project.name}.yumspot.online/`}
               target="_blank"
               style={{ color: "#7950f2", textDecoration: "underline" }}
             >
-              {project.url}
+              {`https://${project.name}.yumspot.online/`}
             </a>
           </div>
           <div>
             <strong>Stack:</strong>{" "}
-            <span style={{ color: "#7950f2", fontWeight: 600 }}>{project.stack}</span>
+            <span style={{ color: "#7950f2", fontWeight: 600 }}>{project.type}</span>
           </div>
           <div>
             <strong>Link Git:</strong>{" "}
             <a
-              href={project.gitUrl}
+              href={project.gitURL}
               target="_blank"
               style={{ color: "#7950f2", textDecoration: "underline" }}
             >
-              {project.gitUrl}
+              {project.gitURL}
             </a>
           </div>
           <div>
-            <strong>Lần deploy gần nhất:</strong> {project.lastDeploy}
+            <strong>Lần deploy gần nhất:</strong>{new Date(project.createdAt).toLocaleString("vi-VN", {
+                    hour12: false,
+                  })}
           </div>
         </div>
 
@@ -186,76 +192,6 @@ function ProjectDetail() {
           >
             Xóa dự án
           </button>
-
-          <button
-            onClick={() => setShowEnv(!showEnv)}
-            style={{
-              background: "#fff",
-              border: "1px solid #dee2e6",
-              padding: "12px 24px",
-              borderRadius: 12,
-              cursor: "pointer",
-              fontWeight: 500,
-              fontSize: 14,
-              transition: "all 0.25s",
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.background = "#f8f0fc")}
-            onMouseOut={(e) => (e.currentTarget.style.background = "#fff")}
-          >
-            {showEnv ? "Ẩn env" : "Cấu hình môi trường"}
-          </button>
-        </div>
-
-        {/* Env variables */}
-        {showEnv && (
-          <div
-            style={{
-              background: "#f8f0fc",
-              borderRadius: 14,
-              padding: 16,
-              display: "flex",
-              flexDirection: "column",
-              gap: 8,
-              color: "#343a40",
-            }}
-          >
-            <strong>Biến môi trường:</strong>
-            {project.envVars.map((env, idx) => (
-              <div key={idx}>
-                <span style={{ fontWeight: 600 }}>{env.key}</span>: {env.value}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Logs */}
-        <div>
-          <strong style={{ marginBottom: 8, display: "block", color: "#343a40" }}>
-            Log dự án:
-          </strong>
-          <div
-            style={{
-              background: "#f1f3ff",
-              borderRadius: 14,
-              padding: 16,
-              maxHeight: 400,
-              overflowY: "auto",
-              color: "#495057",
-              fontSize: 14,
-              display: "flex",
-              flexDirection: "column",
-              gap: 6,
-            }}
-          >
-            {project.logs.map((log, idx) => (
-              <div key={idx} style={{ lineHeight: 1.5 }}>
-                <span style={{ color: "#868e96", fontSize: 12, marginRight: 10 }}>
-                  {log.time}
-                </span>{" "}
-                - {log.content}
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </AppLayout>

@@ -4,25 +4,11 @@ import NewProjectForm from "../components/NewProjectForm";
 import { useNavigate } from "react-router-dom";
 import { endpoints, authApis } from "../configs/Api";
 
-const mockProjects = [
-  {
-    id: 1,
-    name: "Web Thú Cưng",
-    status: "running",
-    lastDeploy: "2025-11-14 16:10",
-  },
-  {
-    id: 2,
-    name: "Blog Review Sách",
-    status: "error",
-    lastDeploy: "2025-11-13 21:30",
-  },
-];
-
 function ProjectDashboard() {
   const [projects, setProjects] = useState([]);
   const [openForm, setOpenForm] = useState(false);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -141,7 +127,8 @@ function ProjectDashboard() {
               onMouseOut={(e) =>
                 Object.assign(e.currentTarget.style, cardStyle)
               }
-              onClick={() => navigate(`/project/${project.id}`)}
+              onClick={() => navigate(`/project/${project.id}`, { state: { project: project }, })
+              }
             >
               <h3
                 style={{

@@ -20,6 +20,8 @@ function AuthPage() {
       });
       console.log("LOGIN OK:", res.data);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("email", form.email);
+      //localStorage.setItem("name", res.data.name);
       navigate("/home");
     } catch (err) {
       console.error("LOGIN ERROR:", err);

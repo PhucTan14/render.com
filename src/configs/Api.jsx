@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://47.129.137.90:9000";
+const BASE_URL = "https://main.yumspot.online/api";
 
 export const endpoints = {
   project:  "/project",

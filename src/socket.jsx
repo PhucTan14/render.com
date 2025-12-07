@@ -1,8 +1,7 @@
 import { io } from "socket.io-client";
 
-const SOCKET_URL = "http://47.129.137.90:9002";
-
-const socket = io(SOCKET_URL, {
+const socket = io("https://main.yumspot.online", {
+  path: "/socket.io/",
   transports: ["websocket"],
   autoConnect: true,
   reconnection: true,
@@ -12,4 +11,5 @@ const socket = io(SOCKET_URL, {
 
 socket.on("connect", () => console.log("Socket connected:", socket.id));
 socket.on("disconnect", () => console.log("Socket disconnected"));
+
 export default socket;

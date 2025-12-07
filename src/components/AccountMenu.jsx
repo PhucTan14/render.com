@@ -4,6 +4,10 @@ function AccountMenu() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
 
+  const token = localStorage.getItem("token");
+  const email = localStorage.getItem("email");
+  const name = localStorage.getItem("name");
+
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -50,36 +54,30 @@ function AccountMenu() {
             padding: "16px 0",
             animation: "fadeIn 0.2s",
             fontFamily: "Inter",
-            zIndex: 9999, 
+            zIndex: 9999,
           }}
         >
           {/* User Info */}
-          <div style={{ padding: "0 16px 16px 16px", borderBottom: "1px solid #f1f3f5" }}>
-            <div style={{ fontWeight: 600, fontSize: 15 }}>Nguyễn Phúc Tấn</div>
-            <div style={{ color: "#666", fontSize: 13 }}>nguyentan14kute@gmail.com</div>
+          <div
+            style={{
+              padding: "0 16px 16px 16px",
+              borderBottom: "1px solid #f1f3f5",
+            }}
+          >
+            <div style={{ fontWeight: 600, fontSize: 15 }}>{name}</div>
+            <div style={{ color: "#666", fontSize: 13 }}>{email}</div>
           </div>
 
           {/* Menu items */}
           <div
             style={itemStyle}
-            onMouseOver={(e) => (e.currentTarget.style.background = "#f8f9fa")}
-            onMouseOut={(e) => (e.currentTarget.style.background = "#fff")}
-          >
-            Account settings
-          </div>
-
-          <div
-            style={itemStyle}
-            onMouseOver={(e) => (e.currentTarget.style.background = "#f8f9fa")}
-            onMouseOut={(e) => (e.currentTarget.style.background = "#fff")}
-          >
-            Theme
-          </div>
-
-          <div
-            style={itemStyle}
             onMouseOver={(e) => (e.currentTarget.style.background = "#fff5f5")}
             onMouseOut={(e) => (e.currentTarget.style.background = "#fff")}
+            onClick={() => {
+              localStorage.removeItem("token");
+              localStorage.removeItem("email"); 
+              window.location.href = "/";
+            }}
           >
             <span style={{ color: "#c92a2a", fontWeight: 500 }}>Sign out</span>
           </div>
