@@ -106,7 +106,7 @@ function ProjectDetail() {
               fontSize: 14,
             }}
           >
-            {project.status === "running" ? "Đang hoạt động" : "Có lỗi"}
+            {project.status === "RUNNING" ? "Đang hoạt động" : "Có lỗi"}
           </span>
         </div>
 

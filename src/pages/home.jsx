@@ -27,7 +27,7 @@ function ProjectDashboard() {
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case "running":
+      case "RUNNING":
         return {
           background: "#d3f9d8",
           color: "#2b8a3e",
@@ -150,7 +150,7 @@ function ProjectDashboard() {
                     ...getStatusStyle(project.status),
                   }}
                 >
-                  {project.status === "running"
+                  {project.status === "RUNNING"
                     ? "Hoạt động bình thường"
                     : "Lỗi deploy"}
                 </div>
